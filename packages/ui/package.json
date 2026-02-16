@@ -1,6 +1,6 @@
 {
   "name": "@next2d/ui",
-  "version": "*",
+  "version": "3.0.0",
   "description": "Next2D UI Package",
   "author": "Toshiyuki Ienaga<ienaga@next2d.app> (https://github.com/ienaga/)",
   "license": "MIT",
@@ -23,7 +23,7 @@
     "type": "git",
     "url": "git+https://github.com/Next2D/Player.git"
   },
-  "peerDependencies": {
-    "@next2d/events": "file:../events"
+  "dependencies": {
+    "@next2d/events": "workspace:*"
   }
 }

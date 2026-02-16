@@ -1,6 +1,6 @@
 {
   "name": "@next2d/renderer",
-  "version": "*",
+  "version": "3.0.0",
   "description": "Next2D Renderer Package",
   "author": "Toshiyuki Ienaga<ienaga@next2d.app> (https://github.com/ienaga/)",
   "license": "MIT",
@@ -23,10 +23,10 @@
     "type": "git",
     "url": "git+https://github.com/Next2D/Player.git"
   },
-  "peerDependencies": {
-    "@next2d/webgl": "file:../webgl",
-    "@next2d/webgpu": "file:../webgpu",
-    "@next2d/cache": "file:../cache",
-    "@next2d/texture-packer": "file:../texture-packer"
+  "dependencies": {
+    "@next2d/webgl": "workspace:*",
+    "@next2d/webgpu": "workspace:*",
+    "@next2d/cache": "workspace:*",
+    "@next2d/texture-packer": "workspace:*"
   }
 }

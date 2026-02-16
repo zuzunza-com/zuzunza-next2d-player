@@ -1,6 +1,6 @@
 {
   "name": "@next2d/display",
-  "version": "*",
+  "version": "3.0.0",
   "description": "Next2D Display Package",
   "author": "Toshiyuki Ienaga<ienaga@next2d.app> (https://github.com/ienaga/)",
   "license": "MIT",
@@ -23,14 +23,14 @@
     "type": "git",
     "url": "git+https://github.com/Next2D/Player.git"
   },
-  "peerDependencies": {
-    "@next2d/ui": "file:../ui",
-    "@next2d/text": "file:../text",
-    "@next2d/geom": "file:../geom",
-    "@next2d/media": "file:../media",
-    "@next2d/net": "file:../net",
-    "@next2d/events": "file:../events",
-    "@next2d/filters": "file:../filters",
-    "@next2d/render-queue": "file:../render-queue"
+  "dependencies": {
+    "@next2d/ui": "workspace:*",
+    "@next2d/text": "workspace:*",
+    "@next2d/geom": "workspace:*",
+    "@next2d/media": "workspace:*",
+    "@next2d/net": "workspace:*",
+    "@next2d/events": "workspace:*",
+    "@next2d/filters": "workspace:*",
+    "@next2d/render-queue": "workspace:*"
   }
 }

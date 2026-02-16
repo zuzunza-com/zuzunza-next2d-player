@@ -1,6 +1,6 @@
 {
   "name": "@next2d/media",
-  "version": "*",
+  "version": "3.0.0",
   "description": "Next2D Media Package",
   "author": "Toshiyuki Ienaga<ienaga@next2d.app> (https://github.com/ienaga/)",
   "license": "MIT",
@@ -23,10 +23,10 @@
     "type": "git",
     "url": "git+https://github.com/Next2D/Player.git"
   },
-  "peerDependencies": {
-    "@next2d/events": "file:../events",
-    "@next2d/net": "file:../net",
-    "@next2d/display": "file:../display",
-    "@next2d/geom": "file:../geom"
+  "dependencies": {
+    "@next2d/events": "workspace:*",
+    "@next2d/net": "workspace:*",
+    "@next2d/display": "workspace:*",
+    "@next2d/geom": "workspace:*"
   }
 }

@@ -1,8 +1,8 @@
 {
   "name": "@next2d/text",
-  "version": "*",
+  "version": "3.0.0",
   "description": "Next2D Text Package",
-  "author": "Toshiyuki Ienaga<ienaga@next2d.app> (https://github.com/ienaga/)",
+  "author": "Ioka Hiroki<shahrene777@gmail.com>, Original:Toshiyuki Ienaga<ienaga@next2d.app> (https://github.com/ienaga/)",
   "license": "MIT",
   "homepage": "https://next2d.app",
   "bugs": "https://github.com/Next2D/Player/issues",
@@ -24,13 +24,11 @@
     "url": "git+https://github.com/Next2D/Player.git"
   },
   "dependencies": {
-    "htmlparser2": "^10.0.0"
-  },
-  "peerDependencies": {
-    "@next2d/display": "file:../display",
-    "@next2d/geom": "file:../geom",
-    "@next2d/events": "file:../events",
-    "@next2d/ui": "file:../ui",
-    "@next2d/cache": "file:../cache"
+    "htmlparser2": "^10.0.0",
+    "@next2d/display": "workspace:*",
+    "@next2d/geom": "workspace:*",
+    "@next2d/events": "workspace:*",
+    "@next2d/ui": "workspace:*",
+    "@next2d/cache": "workspace:*"
   }
 }

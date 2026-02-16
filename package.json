@@ -1,7 +1,7 @@
 {
-  "name": "@next2d/player",
+  "name": "@zuzunza-com/zuzunza-next2d-player",
   "version": "3.0.0",
-  "description": "Experience the fast and beautiful anti-aliased rendering of WebGL. You can create rich, interactive graphics, cross-platform applications and games without worrying about browser or device compatibility.",
+  "description": "Next2D Player of ZUZUNZA.com",
   "author": "Toshiyuki Ienaga<ienaga@next2d.app> (https://github.com/ienaga/)",
   "license": "MIT",
   "homepage": "https://next2d.app",
@@ -49,7 +49,22 @@
   },
   "dependencies": {
     "fflate": "^0.8.2",
-    "htmlparser2": "^10.1.0"
+    "htmlparser2": "^10.1.0",
+    "@next2d/cache": "workspace:*",
+    "@next2d/core": "workspace:*",
+    "@next2d/display": "workspace:*",
+    "@next2d/events": "workspace:*",
+    "@next2d/filters": "workspace:*",
+    "@next2d/geom": "workspace:*",
+    "@next2d/media": "workspace:*",
+    "@next2d/net": "workspace:*",
+    "@next2d/render-queue": "workspace:*",
+    "@next2d/renderer": "workspace:*",
+    "@next2d/text": "workspace:*",
+    "@next2d/texture-packer": "workspace:*",
+    "@next2d/ui": "workspace:*",
+    "@next2d/webgl": "workspace:*",
+    "@next2d/webgpu": "workspace:*"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.3",
@@ -76,21 +91,5 @@
     "vitest-webgl-canvas-mock": "^1.1.0",
     "xml2js": "^0.6.2"
   },
-  "peerDependencies": {
-    "@next2d/cache": "file:packages/cache",
-    "@next2d/core": "file:packages/core",
-    "@next2d/display": "file:packages/display",
-    "@next2d/events": "file:packages/events",
-    "@next2d/filters": "file:packages/filters",
-    "@next2d/geom": "file:packages/geom",
-    "@next2d/media": "file:packages/media",
-    "@next2d/net": "file:packages/net",
-    "@next2d/render-queue": "file:packages/render-queue",
-    "@next2d/renderer": "file:packages/renderer",
-    "@next2d/text": "file:packages/text",
-    "@next2d/texture-packer": "file:packages/texture-packer",
-    "@next2d/ui": "file:packages/ui",
-    "@next2d/webgl": "file:packages/webgl",
-    "@next2d/webgpu": "file:packages/webgpu"
-  }
+  "peerDependencies": {}
 }

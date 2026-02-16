@@ -1,6 +1,9 @@
-node_modules
-json
-dist
+node_modules/
+json/
+dist/
+.env
+.env.local
+.env.*.local
 build
 coverage
 .DS_Store
