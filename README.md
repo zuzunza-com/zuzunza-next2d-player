@@ -1,220 +1,171 @@
-Next2D Player
-=============
-<div align="center">
-  <img src="https://next2d.app/assets/img/player/logo.svg" width="250" alt="Next2D Player">
-</div>
+# zuzunza-next2d-player — Next2D WebGL/WebGPU Player
 
-[![UnitTest](https://github.com/Next2D/Player/actions/workflows/integration.yml/badge.svg?branch=main)](https://github.com/Next2D/Player/actions/workflows/integration.yml)
-[![CodeQL](https://github.com/Next2D/player/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/Next2D/player/actions/workflows/github-code-scanning/codeql)
-[![Lint](https://github.com/Next2D/Player/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/Next2D/Player/actions/workflows/lint.yml)
+> **ZUZUNZA Waterscape 6.0** · Next2D WebGL/WebGPU Player  
+> ZUZUNZA 플랫폼 전용으로 포크된 Next2D 플레이어.  
+> WebGL 하드웨어 가속 + OffscreenCanvas 멀티스레드 처리로 고성능 애니메이션·게임·인터랙티브 콘텐츠를 브라우저에서 구동합니다.
 
-[![release](https://img.shields.io/github/v/release/Next2D/Player)](https://github.com/Next2D/Player/releases)
-[![Github All Releases](https://img.shields.io/npm/dt/@next2d/player)](https://github.com/Next2D/Player/releases)
-[![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://discord.gg/6c9rv5Uns5)
-[![Twitter](https://img.shields.io/twitter/follow/Next2D?style=social)](https://twitter.com/Next2D)
+---
 
-[日本語]  
-Next2D Playerは、WebGLのハードウェアアクセラレーションでグラフィックス処理負荷を軽減し、OffscreenCanvasのマルチスレッド処理で描画パフォーマンスを向上させています。  
-ベクター描画、Tweenアニメーション、テキスト、音声、動画など、さまざまな要素をサポートしているので、ゲーム制作、インタラクティブなデータビジュアライゼーション、クリエイティブなウェブアプリケーションなど、豊かな表現が必要とされるプロジェクトで活用が期待できます。  
-  
-[English]  
-Next2D Player reduces graphics processing load with WebGL hardware acceleration and improves drawing performance with OffscreenCanvas multi-threaded processing.  
-With support for vector rendering, tween animation, text, audio, video, and many other elements, Next2D Player can be used for game production, interactive data visualization, creative web applications, and other projects that require rich expression. The software is expected to be used in game production, interactive data visualization, creative web applications and other projects requiring rich expression.  
-  
-[简体中文]  
-Next2D Player通过WebGL硬件加速降低了图形处理负载，通过OffscreenCanvas多线程处理提高了绘图性能。  
-由于支持矢量绘图、Tween动画、文本、音频、视频和许多其他元素，它可用于游戏制作、交互式数据可视化、创意网络应用和其他需要丰富表达的项目。 该软件可用于需要丰富表现力的项目中。  
-  
-## Support
-[日本語]  
-最新ニュースや技術情報は、Twitterの[@Next2D](https://twitter.com/Next2D)や公式の[Website](https://next2d.app/ja/)で発信していきますので、チェックしてみてください。  
-Next2Dがお役に立つようでしたら、プロジェクトをご支援いただければ幸いです。  
-  
-[English]  
-Please check [@Next2D](https://twitter.com/Next2D) on Twitter and the [official website](https://next2d.app/en/) for the latest news and technical information.    
-If Next2D is useful to you, we hope you will support our project.  
-  
-[简体中文]  
-请在Twitter上查看[@Next2D](https://twitter.com/Next2D)和[官方网站](https://next2d.app/cn/)，了解最新的新闻和技术信息。  
-如果Next2D对你有用，我们希望你能支持我们的项目。  
-  
-<div align="center">
-  <a href="https://github.com/sponsors/Next2D" target="_blank">
-    <img src="https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86" width=180 alt="GitHub Sponsor" />
-  </a>
-</div>
+## 목차
 
-## Related Sites
-* [Website](https://next2d.app)
-* [Animation Tool](https://tool.next2d.app)
-* [Framework](https://github.com/Next2D/framework)
+1. [기술 스택](#1-기술-스택)
+2. [패키지 구조](#2-패키지-구조)
+3. [렌더러 아키텍처](#3-렌더러-아키텍처)
+4. [설계 원칙](#4-설계-원칙)
+5. [플랫폼 통합](#5-플랫폼-통합)
+6. [빌드 및 실행](#6-빌드-및-실행)
 
-## Examples
+---
 
-### Use Simple Sample
+## 1. 기술 스택
+
+| 항목 | 기술 / 버전 |
+|------|-------------|
+| 패키지 이름 | `@zuzunza-com/zuzunza-next2d-player` |
+| 버전 | 3.0.0 |
+| 언어 | TypeScript |
+| 번들러 | Vite + Rollup |
+| 모듈 형식 | ESM |
+| 렌더러 | WebGL (하드웨어 가속), WebGPU (차세대) |
+| 스레드 | OffscreenCanvas + WorkerThread |
+| 의존성 | Node.js 22+ |
+| 패키지 매니저 | pnpm (workspace) |
+| 테스트 | Vitest |
+| 린트 | ESLint |
+
+---
+
+## 2. 패키지 구조
+
+모노레포 구조 — `packages/` 하위의 각 패키지가 독립 책임을 가집니다.
+
+```
+zuzunza-next2d-player/
+├── src/                      # 최상위 플레이어 진입점
+│   └── index.ts
+│
+├── packages/                 # 모노레포 패키지
+│   ├── cache/                # 리소스 캐시 관리
+│   ├── core/                 # 플레이어 코어 엔진
+│   ├── display/              # 디스플레이 오브젝트 트리 (Stage, Sprite 등)
+│   ├── events/               # 이벤트 시스템 (EventDispatcher)
+│   ├── filters/              # 비주얼 필터 (Blur, ColorMatrix, DropShadow 등)
+│   ├── geom/                 # 기하 연산 (Matrix, Point, Rectangle)
+│   ├── media/                # 미디어 재생 (Video, Sound)
+│   ├── net/                  # 네트워크 로더 (URLLoader, URLRequest)
+│   ├── render-queue/         # 렌더 커맨드 큐
+│   ├── renderer/             # 렌더러 메인 (WebGL·WebGPU 드라이버)
+│   ├── text/                 # 텍스트 렌더링 (TextField, TextFormat)
+│   ├── texture-packer/       # 텍스처 아틀라스 패킹
+│   ├── ui/                   # UI 인터랙션 (Button, SimpleButton)
+│   ├── webgl/                # WebGL 렌더러 구현
+│   └── webgpu/               # WebGPU 렌더러 구현
+│
+├── e2e/                      # E2E 테스트
+├── specs/                    # 단위 테스트 스펙
+├── scripts/                  # 빌드 자동화
+│   ├── rollup.renderer.worker.config.js  # 렌더러 워커 번들
+│   └── rollup.unzip.worker.config.js     # Unzip 워커 번들
+│
+├── index.html                # 개발 서버 진입점
+├── vite.config.ts            # Vite 설정
+└── pnpm-workspace.yaml       # pnpm workspace 설정
+```
+
+---
+
+## 3. 렌더러 아키텍처
+
+### 멀티스레드 렌더링
+
+```
+메인 스레드 (DOM, 입력 이벤트)
+  │  postMessage (렌더 커맨드)
+  ▼
+OffscreenCanvas WorkerThread
+  │
+  ├── WebGL 렌더러 (packages/webgl/)
+  │     └── 하드웨어 가속 벡터·텍스처 렌더링
+  │
+  └── WebGPU 렌더러 (packages/webgpu/)
+        └── 차세대 GPU API 기반 렌더링
+```
+
+### 렌더 파이프라인
+
+```
+콘텐츠 로드 (net/)
+  → 텍스처 패킹 (texture-packer/)
+  → 디스플레이 트리 구성 (display/)
+  → 렌더 커맨드 생성 (render-queue/)
+  → GPU 렌더링 (webgl/ 또는 webgpu/)
+  → OffscreenCanvas 합성
+  → 화면 출력
+```
+
+---
+
+## 4. 설계 원칙
+
+각 클래스의 메서드는 **usecase** 또는 **service** 패턴으로 구현됩니다.
+
+| 규칙 | 설명 |
+|------|------|
+| `service` → `service` 호출 금지 | 서비스 간 직접 호출 없이 usecase를 경유 |
+| 단순 메서드 | `service` 직접 호출 |
+| 복합 메서드 | 여러 service를 조합하는 `usecase` 구현 |
+| 메서드 역할 | `private`·`protected` 클래스 변수 값 설정까지만 |
+| 로직 책임 | `usecase` 또는 `service`에 집중 |
+
+### 의존성 다이어그램
+
+```
+case 1:  class → method → service
+case 2:  class → method → usecase → service(s)
+```
+
+---
+
+## 5. 플랫폼 통합
+
+### wscp-frontend 통합
+
+- `wscp-frontend`의 `webrgss/` 모듈에서 Next2D 플레이어를 iframe으로 임베드.
+- Next2D 네이티브 JSON 포맷을 통해 애니메이션·게임 콘텐츠를 로드.
+
+### wscp-studio 통합
+
+- wscp-studio의 미리보기 패널(`preview/[publishId]`)이 Next2D 플레이어를 iframe으로 임베드.
+- 스튜디오에서 퍼블리시된 콘텐츠를 실시간 미리보기.
+
+### 콘텐츠 로드 예시
+
 ```javascript
-next2d.load("Path to JSON output from Animation Tool");
+// JSON 경로로 콘텐츠 로드
+next2d.load("https://cdn.zuzunza.com/content/animation.json");
 ```
 
-### Use Program Sample For JavaScript
-```javascript
-const { Loader }     = next2d.display;
-const { URLRequest } = next2d.net;
-const { Event }      = next2d.events;
+---
 
-// create root MovieClip
-const start = async () =>
-{
-    const request = new URLRequest("JSON path");
-    const loader  = new Loader();
-    await loader.load(request);
+## 6. 빌드 및 실행
 
-    const root = await next2d.createRootMovieClip();
-    root.addChild(loader.contentLoaderInfo.content);
-};
+```bash
+# 의존성 설치 (Node.js 22+ 필요)
+npm install
 
-start();
+# 개발 서버 시작
+npm start
+
+# 단위 테스트
+npm test
+
+# 린트
+npm run lint
+
+# 프로덕션 빌드
+npm run build
 ```
 
-### Use Program Sample For TypeScript
-```typescript
-import { Loader } from "@next2d/display";
-import { URLRequest } from "@next2d/net";
-import { Event } from "@next2d/events";
+---
 
-// create root MovieClip
-const start = async (): Promise<void> =>
-{
-    const request = new URLRequest("JSON path");
-    const loader  = new Loader();
-    await loader.load(request);
-
-    const root = await next2d.createRootMovieClip();
-    root.addChild(loader.content);
-};
-
-start();
-```
-
-## Option settings
-
-[日本語]  
-
-| プロパティ名       | 型       | デフォルト値        | 説明                                                                    |
-|--------------|---------|---------------|-----------------------------------------------------------------------|
-| `fullScreen` | boolean | false         | Stageクラスで設定した幅と高さを超えて画面全体に描画されます。                                     |
-| `tagId`      | string  | empty         | IDを指定すると、指定したIDのエレメント内で描画を行います。                                       |
-| `bgColor`    | string  | "transparent" | 背景色を16進数で指定できます。デフォルトは無色透明です。                                         |
-
-[English]  
-
-| name           | type    | default       | description                                                                                                                         |
-|----------------|---------|---------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| `fullScreen`   | boolean | false         | The entire screen is drawn beyond the width and height set in the Stage class.                                                      |
-| `tagId`        | string  | empty         | When an ID is specified, drawing is performed within the element of the specified ID.                                               |
-| `bgColor`      | string  | "transparent" | You can specify a background color in hexadecimal. The default is colorless.                                                        |
-
-[简体中文]  
-
-| 名称           | 值类型     | 默认值           | 说明                                                |
-|--------------|---------|---------------|---------------------------------------------------|
-| `fullScreen` | boolean | false         | 整个屏幕的绘制超出了Stage类中设置的宽度和高度。                        |
-| `tagId`      | string  | empty         | 当一个ID被指定时，在指定ID的元素内进行绘图。                          |
-| `bgColor`    | string  | "transparent" | 你可以指定一个十六进制的背景颜色。默认为无色。                           |
-
-##  Flowchart
-
-```mermaid
-flowchart TB
-    %% Main Drawing Flow Chart
-    subgraph MainFlow["🎨 Drawing Flow Chart - Main Rendering Pipeline"]
-        direction TB
-        
-        subgraph Inputs["Display Objects"]
-            Shape["Shape<br/>(Bitmap/Vector)"]
-            TextField["TextField<br/>(canvas2d)"]
-            Video["Video Element"]
-        end
-        
-        Shape --> MaskCheck
-        TextField --> MaskCheck
-        Video --> MaskCheck
-        
-        MaskCheck{"mask<br/>rendering?"}
-        
-        MaskCheck -->|YES| DirectRender["Direct Rendering"]
-        DirectRender -->|drawArrays| FinalRender
-        
-        MaskCheck -->|NO| CacheCheck1{"cache<br/>exists?"}
-        
-        CacheCheck1 -->|NO| TextureAtlas["📦 Texture Atlas<br/>(Binary Tree Packing)"]
-        TextureAtlas --> Coordinates
-        
-        CacheCheck1 -->|YES| Coordinates["📍 Coordinates DB<br/>(x, y, w, h)"]
-        
-        Coordinates --> FilterBlendCheck{"filter or<br/>blend?"}
-        
-        FilterBlendCheck -->|NO| MainArrays
-        FilterBlendCheck -->|YES| NeedCache{"cache<br/>exists?"}
-        
-        NeedCache -->|NO| CacheRender["Render to Cache"]
-        CacheRender --> TextureCache
-        NeedCache -->|YES| TextureCache["💾 Texture Cache"]
-        
-        TextureCache -->|drawArrays| FinalRender
-        
-        MainArrays["⚡ Instanced Arrays<br/>━━━━━━━━━━━━━━━<br/>matrix<br/>colorTransform<br/>Coordinates<br/>━━━━━━━━━━━━━━━<br/><b>Batch Rendering</b>"]
-        
-        MainArrays -->|drawArraysInstanced<br/><b>Multiple objects in one call</b>| FinalRender["🎬 Final Rendering"]
-        
-        FinalRender -->|60fps| MainFramebuffer["🖥️ Main Framebuffer<br/>(Display)"]
-    end
-    
-    %% Branch Flow for Filter/Blend/Mask
-    subgraph BranchFlow["🎭 Filter/Blend/Mask - Branch Processing"]
-        direction TB
-        
-        subgraph FilterInputs["Display Objects"]
-            Shape2["Shape<br/>(Bitmap/Vector)"]
-            TextField2["TextField<br/>(canvas2d)"]
-            Video2["Video Element"]
-        end
-        
-        Shape2 --> CacheCheck2
-        TextField2 --> CacheCheck2
-        Video2 --> CacheCheck2
-        
-        CacheCheck2{"cache<br/>exists?"}
-        
-        CacheCheck2 -->|NO| EffectRender["Effect Rendering"]
-        CacheCheck2 -->|YES| BranchArrays
-        EffectRender --> BranchArrays
-        
-        BranchArrays["⚡ Instanced Arrays<br/>━━━━━━━━━━━━━━━<br/>matrix<br/>colorTransform<br/>Coordinates<br/>━━━━━━━━━━━━━━━<br/><b>Batch Rendering</b>"]
-        
-        BranchArrays -->|drawArraysInstanced<br/><b>Multiple objects in one call</b>| BranchRender["Effect Result"]
-        
-        BranchRender -->|filter/blend| TextureCache
-    end
-    
-    %% Connections between flows
-    FilterBlendCheck -.->|"trigger<br/>branch flow"| BranchFlow
-    BranchArrays -.->|"rendering info<br/>(coordinates)"| MainArrays
-    
-    %% Styling
-    style MainFlow fill:#e3f2fd,stroke:#1976d2,stroke-width:3px
-    style BranchFlow fill:#fff3e0,stroke:#f57c00,stroke-width:3px
-    style Inputs fill:#f5f5f5,stroke:#9e9e9e,stroke-width:1px
-    style FilterInputs fill:#f5f5f5,stroke:#9e9e9e,stroke-width:1px
-    
-    style MainArrays fill:#c8e6c9,stroke:#388e3c,stroke-width:3px
-    style BranchArrays fill:#c8e6c9,stroke:#388e3c,stroke-width:3px
-    style FinalRender fill:#ffecb3,stroke:#f57f17,stroke-width:2px
-    style MainFramebuffer fill:#c5e1a5,stroke:#689f38,stroke-width:3px
-    style TextureCache fill:#e1bee7,stroke:#8e24aa,stroke-width:2px
-    style Coordinates fill:#b3e5fc,stroke:#0277bd,stroke-width:2px
-    style TextureAtlas fill:#fff9c4,stroke:#f9a825,stroke-width:2px
-```
-
-## License
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT) - see the [LICENSE](LICENSE) file for details.
+*ZUZUNZA Waterscape 6.0 — Next2D WebGL/WebGPU Player*
