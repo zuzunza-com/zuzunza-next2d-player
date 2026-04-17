@@ -7,6 +7,5 @@ if (!("next2d" in window)) {
         "color: #fff; background: #5f5f5f",
         "color: #fff; background: #4bc729",
         "");
-
     (window as any).next2d = new Next2D();
 }
