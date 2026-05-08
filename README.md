@@ -166,6 +166,20 @@ npm run lint
 npm run build
 ```
 
+해당 커맨드가 안 될 경우
+
+```bash
+# pnpm 설치
+npm install -g pnpm
+
+# 의존성 설치
+pnpm install
+
+# 개발 서버 실행
+pnpm start
+
+```
+
 ---
 
 *ZUZUNZA Waterscape 6.0 — Next2D WebGL/WebGPU Player*
